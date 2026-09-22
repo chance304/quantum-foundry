@@ -1,0 +1,44 @@
+# ZrO2 (monoclinic, baddeleyite structure) — candidate gate dielectric.
+#
+# Verified 2026-07-20 via direct fetch of mp-2858's real materialsproject.org
+# page. Same DFT-underestimates-gap caveat as hfo2.yaml applies here.
+
+material_id: ZrO2
+formula: ZrO2
+lattice_constant_angstrom: null
+band_gap_eV: 3.540
+effective_mass_electron: null
+effective_mass_hole: null
+dielectric_constant: 21.28
+thermal_conductivity_W_mK: null
+work_function_eV: null
+
+citations:
+  band_gap_eV:
+    source: Materials Project
+    identifier: mp-2858
+    year: null
+    figure_or_table_ref: "Band Gap (DFT, semi-local functional — underestimates true gap)"
+    url: https://legacy.materialsproject.org/materials/mp-2858/
+    verified: true
+  dielectric_constant:
+    source: Materials Project
+    identifier: mp-2858
+    year: null
+    figure_or_table_ref: "Polycrystalline dielectric constant (total)"
+    url: https://legacy.materialsproject.org/materials/mp-2858/
+    verified: true
+
+extra:
+  crystal_system: monoclinic
+  space_group: "P2_1/c (14)"
+  mp_extra_properties:
+    density_g_cm3: 5.56
+    formation_energy_eV_per_atom: -3.824
+    refractive_index: 2.31
+    dielectric_constant_electronic: 5.35
+    bulk_modulus_GPa: 183
+    shear_modulus_GPa: 85
+  open_items:
+    - "lattice_parameters (a, b, c, beta) not yet transcribed from mp-2858 — needed before this material is usable in a real device-geometry build"
+    - "thermal_conductivity_W_mK and work_function_eV not yet sourced"

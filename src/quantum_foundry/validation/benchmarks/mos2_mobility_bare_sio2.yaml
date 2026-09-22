@@ -1,0 +1,27 @@
+# Mobility, monolayer MoS2, bare SiO2 substrate, no high-k dielectric.
+# RESOLVED 2026-07-28: found and directly read (PubMed abstract, PMID
+# 26039221 — a real primary-source quote, not a search-engine summary) the
+# actual source paper. Abstract states verbatim: "Without high-k
+# dielectric boosting, an electron mobility of 44 cm2/(V*s) has been
+# achieved in a monolayer MoS2 FET on SiO2 substrate at room temperature."
+# — matches this benchmark's value exactly.
+
+id: mos2_mobility_bare_sio2
+experimental:
+  quantity: mobility
+  value: 44.0
+  unit: "cm^2/(V*s)"
+  uncertainty: null
+  conditions:
+    material: MoS2_monolayer
+    substrate: SiO2
+    high_k_dielectric: false
+  citation:
+    authors: "Liu, W.; Sarkar, D.; Kang, J.; Cao, W.; Banerjee, K."
+    year: 2015
+    title: "Impact of Contact on the Operation and Performance of Back-Gated Monolayer MoS2 Field-Effect-Transistors"
+    venue: "ACS Nano 9 (8), 7904-7912"
+    doi: "10.1021/nn506512j"
+    figure_or_table_ref: "Abstract, quoted directly via PubMed PMID 26039221 (full text paywalled, abstract read directly, not a search summary)"
+    url: "https://pubmed.ncbi.nlm.nih.gov/26039221/"
+    verified: true

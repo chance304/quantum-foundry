@@ -1,0 +1,64 @@
+# h-BN (hexagonal boron nitride) monolayer — candidate substrate/gate-dielectric
+# material in the 2D-stack scope.
+#
+# Verified 2026-07-21 by downloading and directly parsing the real
+# JARVIS-DFT dft_2d dataset (figshare file 38521268, the exact URL used by
+# jarvis-tools' own source code). JVASP-688.
+
+material_id: hBN_monolayer
+formula: BN
+lattice_constant_angstrom: 2.5104
+band_gap_eV: 4.484
+effective_mass_electron: 0.61
+effective_mass_hole: 0.58
+dielectric_constant: 1.3978
+thermal_conductivity_W_mK: null
+work_function_eV: null
+
+citations:
+  lattice_constant_angstrom:
+    source: JARVIS-DFT
+    identifier: JVASP-688
+    year: null
+    figure_or_table_ref: "atoms.lattice_mat (relaxed lattice vectors)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-688.html
+    verified: true
+  band_gap_eV:
+    source: JARVIS-DFT
+    identifier: JVASP-688
+    year: null
+    figure_or_table_ref: "optb88vdw_bandgap"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-688.html
+    verified: true
+  effective_mass_electron:
+    source: JARVIS-DFT
+    identifier: JVASP-688
+    year: null
+    figure_or_table_ref: "effective_masses_300K.n, in-plane (x,y) component"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-688.html
+    verified: true
+  effective_mass_hole:
+    source: JARVIS-DFT
+    identifier: JVASP-688
+    year: null
+    figure_or_table_ref: "effective_masses_300K.p, in-plane (x,y) component"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-688.html
+    verified: true
+  dielectric_constant:
+    source: JARVIS-DFT
+    identifier: JVASP-688
+    year: null
+    figure_or_table_ref: "epsx (static dielectric function, real part, in-plane)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-688.html
+    verified: true
+
+extra:
+  jarvis_extra_properties:
+    hse_bandgap_eV: 5.75
+    exfoliation_energy_meV_per_atom: 71.34
+    formation_energy_eV_per_atom: -1.31306
+    out_of_plane_effective_mass_electron: 1373.45
+    out_of_plane_effective_mass_hole: 4979.43
+    space_group: "P-6m2"
+  open_items:
+    - "thermal_conductivity_W_mK and work_function_eV not yet sourced"

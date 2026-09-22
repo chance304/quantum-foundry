@@ -1,0 +1,127 @@
+[build-system]
+requires = ["setuptools>=83", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantum-foundry"
+version = "0.3.0"
+description = "Multi-physics semiconductor device simulator: ab-initio -> device transport -> thermal/mechanical -> manufacturability/yield"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Shobhit Tripathi" }]
+dependencies = [
+    # Upper bounds added 2026-07-21 (standards audit, docs/STANDARDS_AUDIT.md)
+    # as an interim reproducibility measure -- conda-lock.yml (docs/ROADMAP.md open
+    # item) is the real fix, this just caps the worst-case pip drift until then.
+    "numpy>=1.26,<3",
+    "scipy>=1.11,<2",
+    "pyyaml>=6.0,<7",
+    "typer>=0.12,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0,<10",
+    "pytest-cov>=5.0,<8",
+    "ruff>=0.6,<1",
+    "mypy>=1.11,<2",
+    "types-PyYAML>=6.0,<7",
+]
+# jarvis-tools installed and verified 2026-07-22 (docs/DECISIONS.md) to
+# source WSe2's real effective_mass_hole. Unlike kwant/devsim below, this is
+# a normal pip-installable package (no conda/compiled-BLAS requirement), so
+# it's declared here rather than left to environment.yml. ase/mp-api are
+# the equivalent needs for materials/sources/{c2db,materials_project}.py --
+# not yet installed/verified in this environment, listed for when they are.
+materials-sources = [
+    "jarvis-tools>=2026.6,<2027",
+]
+# meshio/h5py for M5's real mesh-generation step (docs/M5_PLAN.md,
+# docs/CLOUD_BURST_PLAN.md, docs/M10_PLAN.md) -- normal pip-installable
+# packages, no conda/compiled-BLAS requirement, same rationale as
+# materials-sources above. h5py added 2026-08-03: meshio's XDMF writer
+# (thermal/results.py's FieldHandle.format="xdmf_hdf5") needs it, verified
+# by an actual round-trip write in this session -- previously missing from
+# this list entirely.
+#
+# gmsh is deliberately NOT listed here. The plain PyPI wheel's native
+# library dlopen's libGLU.so.1 at import time even for headless mesh
+# generation -- this sandbox lacks that system library and has no working
+# sudo to install it (see docs/DECISIONS.md). Verified 2026-08-03 (see
+# docs/M10_PLAN.md's "Verification pass") that gmsh's own official headless
+# "nox" build avoids this entirely, but it lives on a separate package index
+# and is *only* published as prerelease versions -- a standard dependency
+# string here can't express "different index + --pre for just this one
+# package". Install it explicitly instead:
+#     pip install -i https://gmsh.info/python-packages-dev-nox --pre "gmsh>=4.12,<5"
+# (scripts/setup_env.sh and .github/workflows/ci.yml's real-solvers job both
+# do this before installing this extra.) See
+# tests/thermal/test_mesh_generation.py for the real, passing verification
+# of this install path, and
+# tests/e2e/test_real_pipeline.py::test_gmsh_default_pypi_wheel_still_needs_libglu
+# for why the plain wheel still doesn't work here.
+mesh-generation = [
+    "meshio>=5.3,<6",
+    "h5py>=3.10,<4",
+]
+# Heavy scientific backends are installed via environment.yml (conda-forge), not pip —
+# see docs/DECISIONS.md "Elmer runs via a single dedicated Docker container, not conda"
+# and scripts/preflight.sh for how real-backend availability is checked at runtime.
+
+[project.scripts]
+qf = "quantum_foundry.orchestration.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+# PEP 561 marker -- added 2026-08-04 (engineering-standards audit). This
+# package ships inline type hints consistently (mypy runs clean repo-wide,
+# verified this pass) and exposes a `[project.scripts]` CLI plus normal
+# importable modules -- if anything ever imports `quantum_foundry` as a
+# library rather than shelling out to `qf`, a type checker run against that
+# caller should see these types instead of treating the package as
+# untyped. No confirmed external consumer verified this pass -- this is a
+# standard, low-risk hygiene addition, not a claim that one exists. Must be
+# explicitly declared as package data (setuptools doesn't ship non-.py
+# files from `packages.find` automatically).
+quantum_foundry = ["py.typed"]
+
+# pytest config lives in pytest.ini (root).
+
+[tool.ruff]
+# Ruff's own default rule set (E4/E7/E9/F -- deliberately excludes E501 line-
+# length, since this codebase's intentionally verbose explanatory comments
+# already run long in places) -- adopted 2026-07-21 (standards audit) against
+# a codebase that already passes it cleanly as-is. Expand deliberately later,
+# don't turn on a stricter preset blind.
+
+[tool.mypy]
+# Bumped from 3.11 -> 3.12 2026-07-22 (still >= this project's own
+# requires-python floor, so no code under this floor is newly permitted):
+# numpy 2.5.1's own bundled .pyi stubs use a PEP 695 `type` alias statement
+# that mypy 1.20.2 can only parse when the configured python_version is
+# 3.12+, regardless of what syntax this project's own code actually uses.
+# Found the first time numpy was imported directly in src/ (monte_carlo.py,
+# pcm_structures.py) -- not a hypothetical, a real installed-version
+# incompatibility. See docs/DECISIONS.md.
+python_version = "3.12"
+warn_unused_ignores = true
+
+# Optional heavy scientific backends (installed via environment.yml/conda,
+# not always present, and none ship type stubs or a py.typed marker) --
+# each is a real, deliberate exception, not a blanket ignore_missing_imports.
+[[tool.mypy.overrides]]
+module = ["kwant.*", "devsim.*", "ase.*", "mp_api.*", "jarvis.*", "gmsh.*", "meshio.*"]
+ignore_missing_imports = true
+
+# scipy.optimize (used by validation/pcm_structures.py's van der Pauw solve,
+# added 2026-07-22) doesn't ship inline types for its compiled extension
+# modules and this project doesn't pin the separate `scipy-stubs` package --
+# a real, deliberate exception, not a sign scipy itself is optional (it's a
+# core pyproject.toml dependency, unlike the conda-only backends above).
+[[tool.mypy.overrides]]
+module = ["scipy.*"]
+ignore_missing_imports = true

@@ -1,0 +1,110 @@
+# MoTe2 monolayer (1H, trigonal-prismatic, p-6m2) — previously an honest
+# all-null placeholder: checked 2026-07-21 against the real JARVIS-DFT
+# dft_2d dataset (1103 entries, exact/regex formula match) with no entry
+# found; C2DB was flagged as "not yet checked, worth trying there next."
+#
+# RESOLVED 2026-07-28: real entry found and directly read on C2DB's
+# current live site (c2db.fysik.dtu.dk — the cmr.fysik.dtu.dk/c2db.html
+# URL other seed files in this project cite has since redirected to
+# 2dhub.org; this project's own materials/sources/c2db.py module's guessed
+# uid convention and download URL were also stale/unverified, see
+# docs/DECISIONS.md 2026-07-28). Searched via the site's real
+# /table?filter= endpoint, confirmed this is the p-6m2 (1H) phase — same
+# space group as this project's other seeded TMDs (MoS2/WS2/WSe2) — and
+# the thermodynamically most stable MoTe2 monolayer variant (energy above
+# hull = 0.000 eV/atom, dynamically stable). Two other real, less-stable
+# MoTe2 monolayer phases (1T', Ehull=0.171; a magnetic Ehull=0.640 variant)
+# also exist in C2DB but aren't seeded here — this project needs the 1H
+# semiconducting phase.
+#
+# lattice_constant_angstrom is DERIVED, not directly quoted: C2DB reports
+# "Unit cell area" (10.898 Angstrom^2) and "2D Bravais type: Hexagonal",
+# not a/b vectors directly. For a regular 2D hexagonal cell,
+# Area = (sqrt(3)/2)*a^2, so a = sqrt(2*Area/sqrt(3)) = 3.5474 Angstrom —
+# exact geometry from a directly-cited number, not an assumed physical
+# constant, but flagged as computed rather than read verbatim.
+#
+# work_function_eV is likewise derived, not directly quoted: C2DB reports
+# "Fermi level wrt. vacuum (PBE)" (i.e. E_F already expressed relative to
+# the vacuum level, = -4.300 eV) alongside a separate absolute "Vacuum
+# level [eV]" (4.754 eV, an internal-reference-frame number, re-fetched and
+# confirmed 2026-08-04, materials-provenance audit). Work function
+# W = E_vac - E_F = -(E_F - E_vac) = -(Fermi level wrt. vacuum) = 4.300 eV
+# -- the correction pass this audit made: the number itself was already
+# right, but this comment previously read "Vacuum level (4.754) minus
+# Fermi level wrt. vacuum (-4.300)", which computes to 9.054 eV, not
+# 4.300 eV -- the "Vacuum level" figure was never actually part of the
+# formula that produced 4.300, and citing it as if it were was a real
+# citation-accuracy error (same class this project already treats
+# seriously, e.g. the 2026-07-28 CTE conflation) even though the stored
+# numeric result was correct by luck of getting the sign/negation right.
+#
+# dielectric_constant left null: C2DB reports 2D "polarizability" (units
+# of Angstrom), not a dimensionless dielectric constant — converting one
+# to the other needs a real 2D-to-3D-effective-medium formula this
+# project hasn't implemented, not just unit conversion. Not derived here
+# to avoid quietly inventing a conversion.
+
+material_id: MoTe2_monolayer
+formula: MoTe2
+lattice_constant_angstrom: 3.5474
+band_gap_eV: 0.932
+effective_mass_electron: 0.472
+effective_mass_hole: 0.579
+dielectric_constant: null
+thermal_conductivity_W_mK: null
+work_function_eV: 4.300
+
+citations:
+  lattice_constant_angstrom:
+    source: C2DB
+    identifier: "MoTe2-38a53176109a"
+    year: 2018
+    figure_or_table_ref: "Derived from directly-reported 'Unit cell area' (10.898 A^2) assuming a regular 2D hexagonal cell -- see module note above"
+    url: "https://c2db.fysik.dtu.dk/material/1MoTe2-1"
+    verified: true
+  band_gap_eV:
+    source: C2DB
+    identifier: "MoTe2-38a53176109a"
+    year: 2018
+    figure_or_table_ref: "Band gap (PBE) [eV], direct gap"
+    url: "https://c2db.fysik.dtu.dk/material/1MoTe2-1"
+    verified: true
+  effective_mass_electron:
+    source: C2DB
+    identifier: "MoTe2-38a53176109a"
+    year: 2018
+    figure_or_table_ref: "CBM DOS effective mass (PBE)"
+    url: "https://c2db.fysik.dtu.dk/material/1MoTe2-1"
+    verified: true
+  effective_mass_hole:
+    source: C2DB
+    identifier: "MoTe2-38a53176109a"
+    year: 2018
+    figure_or_table_ref: "VBM DOS effective mass (PBE)"
+    url: "https://c2db.fysik.dtu.dk/material/1MoTe2-1"
+    verified: true
+  work_function_eV:
+    source: C2DB
+    identifier: "MoTe2-38a53176109a"
+    year: 2018
+    figure_or_table_ref: "Derived: W = -(Fermi level wrt. vacuum (PBE) [eV]) = -(-4.300) = 4.300 -- see module note above (corrected 2026-08-04; 'Vacuum level' [4.754 eV] is a separate reported field, not part of this formula)"
+    url: "https://c2db.fysik.dtu.dk/material/1MoTe2-1"
+    verified: true
+
+extra:
+  crystal_system: hexagonal
+  space_group: "P-6m2 (187)"
+  c2db_extra_properties:
+    thickness_angstrom: 3.610
+    band_gap_hse06_eV: 1.370
+    band_gap_g0w0_eV: 1.563
+    exciton_binding_energy_BSE_eV: 0.455
+    dynamically_stable: true
+    energy_above_hull_eV_per_atom: 0.000
+    origin_label: "Original18"
+    origin_publication_doi: "10.1088/2053-1583/aacfc1"
+  open_items:
+    - "dielectric_constant not sourced -- C2DB reports 2D polarizability (Angstrom units), not a dimensionless constant; a real 2D-to-3D conversion formula is needed, not implemented here"
+    - "thermal_conductivity_W_mK not yet sourced"
+    - "lattice_constant_angstrom and work_function_eV are both derived from other directly-reported C2DB numbers, not read verbatim -- see module note above"

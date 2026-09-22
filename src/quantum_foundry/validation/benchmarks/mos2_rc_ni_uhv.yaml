@@ -1,0 +1,29 @@
+# Contact resistance, monolayer MoS2, UHV-deposited Ni contacts.
+# 2026-07-31: confirmed by directly reading the author's accepted manuscript
+# (NSF Public Access Repository, manuscript ID nn-2024-07267z.R3 -- third
+# revision, post-peer-review) via pypdf text extraction, since ACS itself
+# 403's automated fetches. Figure numbering is essentially certain to match
+# the final version of record (R3 is a late-stage revision) but this is not
+# the publisher-typeset PDF, flagged for that distinction.
+
+id: mos2_rc_ni_uhv
+experimental:
+  quantity: contact_resistance
+  value: 500.0
+  unit: "ohm*um"
+  uncertainty: null
+  conditions:
+    material: MoS2_monolayer
+    contact_metal: Ni
+    contact_deposition: UHV
+    contact_type: top
+    carrier_density_cm2: 1.5e13
+  citation:
+    authors: "Sun, Z.; Kim, S. Y.; Cai, J.; Shen, J.; Lan, H.-Y.; Tan, Y.; Wang, X.; Shen, C.; Wang, H.; Chen, Z.; Wallace, R. M.; Appenzeller, J."
+    year: 2024
+    title: "Low Contact Resistance on Monolayer MoS2 Field-Effect Transistors Achieved by CMOS-Compatible Metal Contacts"
+    venue: "ACS Nano"
+    doi: "10.1021/acsnano.4c07267"
+    figure_or_table_ref: "Figure 1g (contact resistance comparison, UHV-Ni vs HV-Ni, at carrier density 1.5e13 cm^-2, n=60 UHV-Ni devices); also plotted in the literature-benchmark panel Figure 1i"
+    url: "https://par.nsf.gov/servlets/purl/10531719"
+    verified: true

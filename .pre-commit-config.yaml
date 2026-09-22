@@ -1,0 +1,30 @@
+# Mirrors exactly what .github/workflows/ci.yml's `lightweight` job already
+# enforces (ruff check + mypy) -- no new tools introduced, no `ruff format`
+# hook, since this project has never configured or run a formatter (see
+# `pyproject.toml`'s `[tool.ruff]` comment: lint rules only, deliberately no
+# stricter/formatting preset adopted yet). Versions pinned to exactly what
+# was installed and verified passing in this session (`ruff==0.16.1`,
+# `mypy==1.20.2`, both already pinned as floors in `pyproject.toml`'s `dev`
+# extra) -- keep these two in sync when `pyproject.toml`'s dev extra bumps.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.1
+    hooks:
+      - id: ruff
+        name: ruff check (src/, tests/)
+        args: [--fix]
+        files: ^(src|tests)/
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.20.2
+    hooks:
+      - id: mypy
+        name: mypy (src/quantum_foundry)
+        # Matches `ci.yml`'s `mypy src/quantum_foundry` exactly -- run
+        # against the package root, not per-file, so cross-module inference
+        # and the `[[tool.mypy.overrides]]` exemptions in `pyproject.toml`
+        # apply the same way here as in CI.
+        entry: mypy src/quantum_foundry
+        pass_filenames: false
+        additional_dependencies:
+          - types-PyYAML>=6.0,<7

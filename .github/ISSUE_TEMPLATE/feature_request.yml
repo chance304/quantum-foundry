@@ -1,0 +1,16 @@
+name: Feature request
+description: A new backend, material, export format or capability
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What you're trying to do that Quantum Foundry can't do today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How you'd approach it, including which pipeline layer it touches and whether it needs a real solver.

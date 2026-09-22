@@ -1,0 +1,29 @@
+Quantum Foundry
+Copyright 2026 Shobhit Tripathi
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Bundled data
+------------
+The seed materials data under src/quantum_foundry/materials/sources/seed_data/
+includes values derived from the following datasets, each licensed under the
+Creative Commons Attribution 4.0 International License
+(https://creativecommons.org/licenses/by/4.0/):
+
+  * JARVIS-DFT "dft_2d" dataset, National Institute of Standards and
+    Technology (figshare article 6815705).
+    K. Choudhary et al., npj Computational Materials 6, 173 (2020).
+  * Computational 2D Materials Database (C2DB), Technical University of
+    Denmark. S. Haastrup et al., 2D Materials 5, 042002 (2018);
+    M. N. Gjerding et al., 2D Materials 8, 044002 (2021).
+  * The Materials Project. A. Jain et al., APL Materials 1, 011002 (2013).
+
+Values taken from individual published papers carry their own per-field
+citation inside each seed-data file.
+
+Optional external tools
+-----------------------
+Quantum Foundry can drive several separately-installed scientific tools.
+None of them is bundled with or linked into this package; GPL-licensed tools
+(gmsh, Elmer, Quantum ESPRESSO) are only ever run as separate processes or
+containers. See THIRD_PARTY_LICENSES.md for the full list and their licenses.

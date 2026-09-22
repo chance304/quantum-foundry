@@ -1,0 +1,53 @@
+# HfO2 (monoclinic, baddeleyite structure) — candidate gate dielectric.
+#
+# Verified 2026-07-20 via direct fetch of mp-352's real materialsproject.org
+# page. Note: DFT band gaps (semi-local GGA, as used here) systematically
+# underestimate the true optical gap — the 4.068 eV value below is the raw
+# DFT-computed number, not a claim about the experimental gap (~5.7 eV is
+# more commonly cited experimentally; that number was NOT independently
+# verified this session and is not included here to avoid conflating a
+# recalled figure with a fetched one).
+#
+# lattice_constant_angstrom is null: monoclinic HfO2 has independent a/b/c/beta
+# parameters that don't reduce to one scalar — see extra.lattice_parameters
+# and docs/DECISIONS.md 2026-07-20 "lattice_constant_angstrom made optional".
+
+material_id: HfO2
+formula: HfO2
+lattice_constant_angstrom: null
+band_gap_eV: 4.068
+effective_mass_electron: null
+effective_mass_hole: null
+dielectric_constant: 18.75
+thermal_conductivity_W_mK: null
+work_function_eV: null
+
+citations:
+  band_gap_eV:
+    source: Materials Project
+    identifier: mp-352
+    year: null
+    figure_or_table_ref: "Band Gap (DFT, semi-local functional — underestimates true gap)"
+    url: https://legacy.materialsproject.org/materials/mp-352/
+    verified: true
+  dielectric_constant:
+    source: Materials Project
+    identifier: mp-352
+    year: null
+    figure_or_table_ref: "Polycrystalline dielectric constant (total)"
+    url: https://legacy.materialsproject.org/materials/mp-352/
+    verified: true
+
+extra:
+  crystal_system: monoclinic
+  space_group: "P2_1/c (14)"
+  mp_extra_properties:
+    density_g_cm3: 9.97
+    formation_energy_eV_per_atom: -4.030
+    refractive_index: 2.19
+    dielectric_constant_electronic: 4.81
+    bulk_modulus_GPa: 205
+    shear_modulus_GPa: 99
+  open_items:
+    - "lattice_parameters (a, b, c, beta) not yet transcribed from mp-352 — needed before this material is usable in a real device-geometry build"
+    - "thermal_conductivity_W_mK and work_function_eV not yet sourced"

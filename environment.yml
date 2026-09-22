@@ -1,0 +1,60 @@
+# Conda/mamba environment for Quantum Foundry's real (non-stub) backends.
+#
+# Elmer is deliberately NOT here — no reliable conda-forge feedstock as of this
+# writing; it runs via docker/elmer.Dockerfile instead (see docs/DECISIONS.md).
+# HotSpot is also not here — it's a small unpackaged C project, vendored by
+# scripts/setup_env.sh (clone + make) rather than installed as a dependency.
+#
+# IMPORTANT (tracked in docs/ROADMAP.md "open action items"): package names/channels
+# below reflect this session's best knowledge of conda-forge availability —
+# re-verify before relying on this file, packaging status shifts over time.
+#
+# Verified 2026-07-21 in a non-conda (uv-managed venv) sandbox: kwant's
+# published PyPI sdist/wheel ships a pre-generated Cython C file that's
+# incompatible with NumPy 2.x's C API and needed a from-source rebuild
+# (`pip install --no-build-isolation kwant` after installing cython/
+# setuptools, or equivalently `python setup.py build_ext --cython`) plus
+# `sympy` and `tinyarray` as real runtime deps for kwant.continuum. This is
+# exactly the kind of packaging drift conda-forge's kwant feedstock (rebuilt
+# against current numpy at package-build time) should avoid — but re-verify
+# on the actual self-hosted runner rather than assuming. DEVSIM's PyPI wheel
+# installs cleanly but needs a real BLAS/LAPACK with *standard, unmangled*
+# symbol names at import time (dlopen's libopenblas.so/liblapack.so/
+# libblas.so) — a plain venv has no such library by default; conda's own
+# numpy/scipy normally pull in a correctly-named libopenblas as a
+# transitive dependency, so this environment.yml should be sufficient, but
+# it was NOT possible to verify this end-to-end in this session's sandbox
+# (no root, no conda available there) — verify on the real runner.
+name: quantum-foundry
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - pyyaml
+  - typer
+
+  # --- Ab-initio: Quantum ESPRESSO + Wannier90 ---
+  - qe               # Quantum ESPRESSO, conda-forge package name "qe"
+  - wannier90
+
+  # --- Device transport: Kwant (conda-forge package exists) ---
+  - kwant
+  - sympy            # kwant.continuum's real runtime dep, confirmed 2026-07-21
+  - tinyarray        # kwant's real runtime dep, confirmed 2026-07-21
+
+  # --- Thermal: FEniCSx (conda-forge package "fenics-dolfinx") ---
+  - fenics-dolfinx
+  - mpich            # dolfinx needs an MPI implementation
+  - petsc4py
+
+  - pip
+  - pip:
+      # DEVSIM is primarily pip-distributed, not conda-forge — verify at setup time.
+      # Needs a real BLAS/LAPACK at import time -- see note above.
+      - devsim
+
+      # --- dev/test tooling ---
+      - pytest>=8.0
+      - pytest-cov>=5.0

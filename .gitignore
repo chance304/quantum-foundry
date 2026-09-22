@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# vendored/built artifacts, not source
+.vendor/
+build/
+dist/
+
+# local environment
+.env
+.venv/

@@ -1,0 +1,91 @@
+# MoS2 monolayer (2H phase) — the n-type channel material anchoring this
+# project's n/p-asymmetry strategy (see README).
+#
+# Verified 2026-07-20 via direct fetch of JVASP-664's real NIST-hosted page
+# (https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-664.html), not recalled from
+# training data.
+#
+# thermal_conductivity_W_mK CORRECTED 2026-08-04 (materials-provenance audit):
+# previous value (34.5 W/mK) was an unfetched "well-known literature value"
+# guess (verified: false, DOI a TODO) attributed to Yan et al. 2014 ACS Nano
+# but never actually checked against it. Fetched the paper's real abstract
+# this pass (ACS itself blocks automated fetches -- used the NIST
+# publications-listing mirror instead, which quotes the abstract verbatim):
+# the paper's own stated result is "the thermal conductivity to be extracted
+# (24 +/- 4) W/mK" -- not 34.5. 34.5 W/mK is a real number that circulates
+# widely in later citing papers as "the Yan et al. value" (confirmed via a
+# second, independent web search this pass), but it does not match this
+# paper's own quoted abstract text, so entering it here under this citation
+# would be exactly the "conflated value from the wrong source" bug class
+# this project has hit before (see docs/DECISIONS.md 2026-07-28 CTE entry).
+# Corrected to the number this project's own cited source actually states.
+# effective_mass_hole (1.78 m0) was also spot-checked this pass by
+# re-fetching JVASP-664 directly -- confirmed as the real reported in-plane
+# hole effective mass tensor component (out-of-plane component 20893.98,
+# same extreme in-plane/out-of-plane anisotropy pattern as the other TMDs
+# in this database) -- citation is accurate, no error found, though the
+# absolute value runs high vs. commonly-cited MoS2 hole-mass literature
+# (~0.6 m0) -- same "worth a dedicated k.p/GW cross-check some day" caveat
+# already applied to WS2/WSe2's hole masses, not corrected here since it's
+# not a citation-accuracy bug (the number matches its cited source exactly).
+
+material_id: MoS2_monolayer
+formula: MoS2
+lattice_constant_angstrom: 3.188
+band_gap_eV: 1.658
+effective_mass_electron: 0.51
+effective_mass_hole: 1.78
+dielectric_constant: 3.65
+thermal_conductivity_W_mK: 24.0
+work_function_eV: null
+
+citations:
+  lattice_constant_angstrom:
+    source: JARVIS-DFT
+    identifier: JVASP-664
+    year: null
+    figure_or_table_ref: "SCF-relaxed lattice constants a, b"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-664.html
+    verified: true
+  band_gap_eV:
+    source: JARVIS-DFT
+    identifier: JVASP-664
+    year: null
+    figure_or_table_ref: "SCF bandgap (OptB88vdW functional)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-664.html
+    verified: true
+  effective_mass_electron:
+    source: JARVIS-DFT
+    identifier: JVASP-664
+    year: null
+    figure_or_table_ref: "Effective mass tensor, electron, in-plane (x,y), 300K"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-664.html
+    verified: true
+  effective_mass_hole:
+    source: JARVIS-DFT
+    identifier: JVASP-664
+    year: null
+    figure_or_table_ref: "Effective mass tensor, hole, in-plane (x,y), 300K"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-664.html
+    verified: true
+  dielectric_constant:
+    source: JARVIS-DFT
+    identifier: JVASP-664
+    year: null
+    figure_or_table_ref: "Static dielectric function, real part, in-plane (x,y)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-664.html
+    verified: true
+  thermal_conductivity_W_mK:
+    source: "Yan, R.; Simpson, J. R.; Bertolazzi, S.; Brivio, J.; Watson, M.; Wu, X.; Kis, A.; Luo, T.; Hight Walker, A. R.; Xing, H. G. — 'Thermal Conductivity of Monolayer Molybdenum Disulfide Obtained from Temperature-Dependent Raman Spectroscopy'"
+    identifier: "10.1021/nn405826k"
+    year: 2014
+    figure_or_table_ref: "Abstract, quoted directly via NIST's publications-listing mirror (nist.gov; ACS itself blocks automated fetches): 'these data ... enable the thermal conductivity to be extracted (24 +/- 4) W/mK'"
+    url: "https://www.nist.gov/publications/thermal-conductivity-monolayer-mos2-obtained-temperature-dependent-raman-spectroscopy"
+    verified: true
+
+extra:
+  jarvis_extra_properties:
+    formation_energy_eV_per_atom: -0.885
+    hse_bandgap_eV: 2.142
+    exfoliation_energy_meV_per_atom: 76.99
+    space_group: "P-6m2 (187)"

@@ -1,0 +1,104 @@
+# WSe2 monolayer — one of two p-type channel candidates (with WS2) in this
+# project's n/p-asymmetry strategy (see README): imec's own June-2026 300mm
+# demo used WSe2 as the pFET channel.
+#
+# Verified 2026-07-20 via direct fetch of JVASP-653's real NIST-hosted page
+# (https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-653.html). Effective mass and
+# thermal conductivity were NOT reported on that page — left null rather
+# than guessed. work_function_eV also left null pending a real source.
+#
+# effective_mass_hole added 2026-07-22 from a DIFFERENT JARVIS-DFT entry,
+# JVASP-652 — also a real, live, independently-computed WSe2 monolayer page,
+# but NOT the same DFT run as JVASP-653 (its band_gap_eV/lattice_constant/
+# dielectric_constant differ meaningfully: 1.334 eV vs 1.409 eV, 3.324 A vs
+# 3.251 A, 3.78 vs 3.72 — two separate relaxations of the same material, not
+# a typo). Deliberately citing it as its own distinct source rather than
+# silently treating this record as one consistent DFT run. JVASP-653 itself
+# has no effective-mass data on its own page and, confirmed 2026-07-22, is
+# NOT present in jarvis-tools' fetchable "dft_2d" bulk dataset at all (only
+# JVASP-652 is) -- so it can't be cross-checked against 653 by re-running
+# the auto-fetch pipeline; the live webpage was the only route to it.
+#
+# effective_mass_electron: JVASP-652's own reported in-plane electron mass
+# (105.23 m0) is implausibly large vs. real WSe2 literature (~0.3-0.5 m0) --
+# same failure pattern as WS2's flagged anomalous 612.59 m0 electron mass
+# (see ws2_monolayer.yaml). Originally left null (2026-07-22) rather than
+# feed a near-certainly-wrong number into a real calculation.
+#
+# RESOLVED 2026-07-28: the open_item below asked for exactly this -- "a
+# real k.p/GW cross-check (e.g. Kormanyos et al.) before use." Read
+# directly (PDF text via pypdf):
+#   - Kormanyos et al., 2D Materials 2, 022001 (2015), DOI
+#     10.1088/2053-1583/2/2/022001, arXiv:1410.6666 -- Table 3: WSe2
+#     conduction-band (K-point) effective mass m_cb/me = 0.28 (HSE,LDA) /
+#     0.29 (PBE,PBE).
+#   - Shi, Pan, Zhang, Yakobson, Phys. Rev. B 87, 155304 (2013), DOI
+#     10.1103/PhysRevB.87.155304, arXiv:1211.5653 -- Table II: WSe2 Ke
+#     (scGW0) = 0.29 (experimental lattice) / 0.26 (3% tensile strain).
+# Both independently land in 0.26-0.29 m0. Populated below with
+# Kormanyos et al.'s HSE,LDA value (0.28). JVASP-652's original figure is
+# preserved in extra.superseded_values, not deleted. See docs/DECISIONS.md
+# 2026-07-28.
+
+material_id: WSe2_monolayer
+formula: WSe2
+lattice_constant_angstrom: 3.251
+band_gap_eV: 1.409
+effective_mass_electron: 0.28
+effective_mass_hole: 0.43
+dielectric_constant: 3.72
+thermal_conductivity_W_mK: null
+work_function_eV: null
+
+citations:
+  lattice_constant_angstrom:
+    source: JARVIS-DFT
+    identifier: JVASP-653
+    year: null
+    figure_or_table_ref: "Relaxed lattice constants a, b"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-653.html
+    verified: true
+  band_gap_eV:
+    source: JARVIS-DFT
+    identifier: JVASP-653
+    year: null
+    figure_or_table_ref: "SCF bandgap (OptB88vdW functional)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-653.html
+    verified: true
+  dielectric_constant:
+    source: JARVIS-DFT
+    identifier: JVASP-653
+    year: null
+    figure_or_table_ref: "Static real part of dielectric function, in-plane (x,y)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-653.html
+    verified: true
+  effective_mass_hole:
+    source: JARVIS-DFT
+    identifier: JVASP-652
+    year: null
+    figure_or_table_ref: "effective_masses_300K.p[0] (in-plane hole mass tensor component) -- a separate DFT entry/run from this material's other cited fields (JVASP-653), see module note above"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-652.html
+    verified: true
+  effective_mass_electron:
+    source: "Kormanyos et al."
+    identifier: "10.1088/2053-1583/2/2/022001"
+    year: 2015
+    figure_or_table_ref: "Table 3, WSe2 m(1)_cb/me, HSE,LDA column (PBE,PBE column gives 0.29, same order)"
+    url: https://arxiv.org/abs/1410.6666
+    verified: true
+
+extra:
+  jarvis_extra_properties:
+    relaxed_energy_eV_per_atom: -8.0442
+    space_group: "P-6m2 (187)"
+    spin_orbit_spillage: 0.025
+  superseded_values:
+    - field: effective_mass_electron
+      value: 105.23
+      previous_source: "JARVIS-DFT JVASP-652, effective_masses_300K.n[0], never actually populated into the field itself -- left null at the time"
+      reason: "Confirmed anomalous 2026-07-28 by two independent literature cross-checks (Kormanyos et al. 2015, Shi et al. 2013), both landing in 0.26-0.29 m0 -- kept here for traceability."
+  open_items:
+    - "thermal_conductivity_W_mK and work_function_eV not yet sourced"
+    - "effective_mass_hole (0.43 m0, JARVIS-DFT JVASP-652) runs somewhat higher than Kormanyos et al./Shi et al.'s WSe2 hole-mass values (~0.34-0.36 m0 across sources) -- not flagged as an anomaly on the electron-mass case's order of magnitude, not corrected this pass since it wasn't a flagged gap; revisit if WSe2's p-role Ion result ever needs high-confidence precision."
+    - "JVASP-653 (this record's primary source for lattice/bandgap/dielectric) vs JVASP-652 (source of effective_mass_hole) are two distinct real DFT runs for the same monolayer -- not yet reconciled into one internally-consistent calculation; revisit if strict single-run provenance becomes a requirement (see docs/DECISIONS.md 2026-07-22)"
+    - "JVASP-653 (this record's primary source for lattice/bandgap/dielectric) vs JVASP-652 (source of effective_mass_hole) are two distinct real DFT runs for the same monolayer -- not yet reconciled into one internally-consistent calculation; revisit if strict single-run provenance becomes a requirement (see docs/DECISIONS.md 2026-07-22)"

@@ -1,0 +1,56 @@
+# Black phosphorus (phosphorene) monolayer — found via a real NEGF-comparison
+# paper referencing MoS2/WSe2/WS2/WTe2/BP 2D-material inverters.
+#
+# Verified 2026-07-21 by downloading and directly parsing the real
+# JARVIS-DFT dft_2d dataset (figshare file 38521268). JVASP-5983.
+#
+# Deliberately anisotropic: black phosphorus's puckered orthorhombic
+# structure gives genuinely different lattice constants and effective
+# masses along the armchair (x) vs. zigzag (y) directions -- this doesn't
+# reduce to this schema's single-scalar lattice_constant_angstrom/
+# effective_mass_electron/hole fields, same class of issue as HfO2/ZrO2's
+# multi-parameter monoclinic lattice (see docs/DECISIONS.md). Both scalar
+# fields are left null; the real anisotropic data lives in extra instead.
+
+material_id: black_phosphorus_monolayer
+formula: P
+lattice_constant_angstrom: null
+band_gap_eV: 0.848
+effective_mass_electron: null
+effective_mass_hole: null
+dielectric_constant: null
+thermal_conductivity_W_mK: null
+work_function_eV: null
+
+citations:
+  band_gap_eV:
+    source: JARVIS-DFT
+    identifier: JVASP-5983
+    year: null
+    figure_or_table_ref: "optb88vdw_bandgap"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-5983.html
+    verified: true
+
+extra:
+  crystal_system: orthorhombic
+  space_group: "Pmna"
+  lattice_parameters:
+    a_angstrom: 3.3225  # armchair direction
+    b_angstrom: 4.5786  # zigzag direction
+  effective_mass_tensor:
+    electron:
+      armchair_x: 1.31
+      zigzag_y: 0.19
+    hole:
+      armchair_x: 3.25
+      zigzag_y: 0.16
+  dielectric_tensor:
+    epsx_armchair: 3.0519
+    epsy_zigzag: 4.4231
+    epsz_out_of_plane: 2.0532
+  jarvis_extra_properties:
+    exfoliation_energy_meV_per_atom: 111.62
+    formation_energy_eV_per_atom: 0.11186
+  open_items:
+    - "lattice_constant_angstrom/effective_mass_electron/hole/dielectric_constant deliberately null -- this material is genuinely anisotropic (real a!=b lattice, real armchair-vs-zigzag effective mass split), see extra fields above instead of a lossy scalar. Same discipline as HfO2/ZrO2's lattice_parameters fix."
+    - "thermal_conductivity_W_mK and work_function_eV not yet sourced"

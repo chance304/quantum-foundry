@@ -1,0 +1,35 @@
+name: Bug report
+description: Something produced a wrong result, crashed, or didn't install
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, and what you got instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: The exact command(s) or a minimal script.
+      render: shell
+    validations:
+      required: true
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Backend
+      options:
+        - stub
+        - real (Kwant / DEVSIM / HotSpot / gmsh / other solver)
+        - not applicable
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Python version, `pip show quantum-foundry` version, and the output of `qf preflight` if a real backend is involved.
+      render: text

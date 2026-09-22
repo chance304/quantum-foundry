@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Least-privilege default (GitHub hardening guidance: only grant what each
+# job actually needs). Neither job below needs to write to the repo,
+# issues, PRs, packages, etc. -- read-only contents access is enough to
+# check out code and run tests. Added 2026-08-04 security/supply-chain audit.
+permissions:
+  contents: read
+
+jobs:
+  lightweight:
+    # Cheap, fast, always available (GitHub-hosted) -- catches schema/logic
+    # regressions even if the self-hosted machine is offline. This is the
+    # job that gates every pull request.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]"
+      - run: ruff check src/ tests/
+      - run: mypy src/quantum_foundry
+      # Threshold set 2026-07-21 (standards audit) at the actual measured
+      # coverage of this exact test selection (73%), with a few points of
+      # headroom -- a real, achievable gate, not an arbitrary round number.
+      # Heavy-backend modules (kwant/devsim/hotspot backends, live-fetch
+      # materials sources) are legitimately undercovered here since their
+      # real tests are gated behind requires_real_solver -- see the
+      # real-solvers job below.
+      - run: pytest -m "not requires_real_solver" --cov=quantum_foundry --cov-report=term-missing --cov-fail-under=70
+      # Keep the examples runnable -- they're the first thing a new user tries.
+      - run: ruff check examples/
+      - run: python examples/01_single_device.py
+      - run: python examples/02_np_channel_search.py
+
+  real-solvers:
+    # Runs on a maintainer-controlled persistent machine (self-hosted, NOT a
+    # cloud VPS, NOT an ephemeral sandbox) with the full conda environment
+    # installed -- see scripts/setup_github_runner.sh.
+    #
+    # Manual trigger only (Actions tab -> CI -> Run workflow). This repo is
+    # public: a job on a self-hosted runner must never run automatically on
+    # pull_request, or anyone could open a fork PR that executes arbitrary
+    # code on that machine. The repository check additionally keeps forks
+    # that enable Actions from trying to schedule it.
+    runs-on: [self-hosted, quantum-foundry]
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'chance304/quantum-foundry'
+    defaults:
+      run:
+        # Login shell -- sources conda's shell hook. Do not remove: a
+        # systemd-managed runner service does not source ~/.bashrc, so this
+        # is what makes `conda run`/`conda activate` actually find the
+        # environment (see scripts/setup_github_runner.sh's echoed warning).
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - run: conda env update -n quantum-foundry -f environment.yml --prune
+      # gmsh installed separately, from its own headless "nox" index with
+      # --pre -- see pyproject.toml's mesh-generation extra comment and
+      # docs/M10_PLAN.md for why this can't be a normal dependency string.
+      - run: conda run -n quantum-foundry pip install -i https://gmsh.info/python-packages-dev-nox --pre "gmsh>=4.12,<5"
+      - run: conda run -n quantum-foundry pip install -e ".[dev,mesh-generation]"
+      - run: bash scripts/preflight.sh
+      - run: conda run -n quantum-foundry pytest

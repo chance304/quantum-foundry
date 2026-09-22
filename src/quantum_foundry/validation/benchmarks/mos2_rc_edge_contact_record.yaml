@@ -1,0 +1,25 @@
+# Contact resistance, monolayer MoS2, edge-contact (record-low among
+# edge-contact devices). Same source paper as mos2_ion_edge_contact_120nm.
+# 2026-07-31: confirmed by directly reading the PMC open-access full text
+# (PMCID PMC11739435, CC BY 4.0) -- publisher PDF was blocked by a JS
+# proof-of-work challenge, PMC HTML full text used instead. Note: PMC lists
+# the actual publication date as 2025-01-17, not 2026 -- corrected below.
+
+id: mos2_rc_edge_contact_record
+experimental:
+  quantity: contact_resistance
+  value: 1250.0
+  unit: "ohm*um"
+  uncertainty: 460.0
+  conditions:
+    material: MoS2_monolayer
+    contact_type: edge
+  citation:
+    authors: "Xiao, J.; Xiong, X.; Shi, X.; Liu, S.; Zhu, S.; Zhang, Y.; Huang, R.; Wu, Y."
+    year: 2025
+    title: "High-Performance Edge-Contact Monolayer Molybdenum Disulfide Transistors"
+    venue: "Research (Science Partner Journal)"
+    doi: "10.34133/research.0593"
+    figure_or_table_ref: "Figure 4E/4F (statistical Rc = 1.25 +/- 0.46 kOhm*um across devices, room temperature; also plotted in Fig. 4F's literature-benchmark panel against 6 prior works). The same 1.25 kOhm*um value is separately quoted in the intro tied to a 20K cryogenic I-V measurement (Fig. 3 context) -- same number, different measurement condition."
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11739435/"
+    verified: true

@@ -1,0 +1,40 @@
+# Subthreshold swing, monolayer MoS2, approaching the room-temperature
+# Boltzmann/thermionic limit (kT/q * ln(10) = 59.6 mV/dec at 300K).
+#
+# RESOLVED 2026-07-28, with a value correction: the previous 60.0 mV/dec
+# figure had no real source and, per this file's own prior note, was
+# suspected to actually be the theoretical Boltzmann limit itself rather
+# than a genuine measurement — no real paper found reporting exactly
+# 60.0 mV/dec for monolayer MoS2. Searched real, credible experimental
+# near-ideal reports instead: h-BN-encapsulated devices (63/69 mV/dec
+# min/avg), HfO2-scaled devices (65 mV/dec), scaled-EOT top-gate devices
+# (68 mV/dec) all cluster in this range, none hit exactly 60. Value
+# corrected to 63.0 mV/dec (the lowest, best-attested real minimum found),
+# citing Vu et al. 2018, read directly (abstract quoted verbatim below,
+# not a search-engine summary). The 59.6 mV/dec Boltzmann limit itself
+# remains a real, separately-derivable physical constant (Sze & Ng,
+# "Physics of Semiconductor Devices," 3rd ed., 2007) — noted here for
+# context, not entered as this benchmark's value, since this schema's
+# ExperimentalValue is for real measurements, not theoretical limits (a
+# distinct "theoretical_limit" benchmark type remains an open schema
+# question, still not resolved this pass).
+
+id: mos2_subthreshold_swing
+experimental:
+  quantity: subthreshold_swing
+  value: 63.0
+  unit: "mV/dec"
+  uncertainty: null
+  conditions:
+    material: MoS2_monolayer
+    temperature_K: 300
+    encapsulation: "h-BN"
+  citation:
+    authors: "Vu, Q. A.; Fan, S.; Lee, S. H.; Joo, M.-K.; Yu, W. J.; Lee, Y. H."
+    year: 2018
+    title: "Near-zero hysteresis and near-ideal subthreshold swing in h-BN encapsulated single-layer MoS2 field-effect transistors"
+    venue: "2D Materials 5 (3), 031001"
+    doi: "10.1088/2053-1583/aab672"
+    figure_or_table_ref: "Abstract, quoted directly: 'minimum subthreshold swing of 63 mV/dec' and 'average subthreshold slope of 69 mV/dec for a current range of four orders of magnitude at room temperature'"
+    url: "https://iopscience.iop.org/article/10.1088/2053-1583/aab672"
+    verified: true

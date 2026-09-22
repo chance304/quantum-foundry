@@ -1,0 +1,110 @@
+# WTe2 monolayer (1H, trigonal-prismatic, p-6m2) — previously an honest
+# all-null placeholder: checked 2026-07-21 against the real JARVIS-DFT
+# dft_2d dataset (1103 entries, exact/regex formula match) with no entry
+# found; C2DB was flagged as "not yet checked."
+#
+# RESOLVED 2026-07-28: real entry found and directly read on C2DB's
+# current live site (c2db.fysik.dtu.dk — see mote2_monolayer.yaml's module
+# note for the same stale-URL/unverified-c2db.py-module story, logged in
+# docs/DECISIONS.md 2026-07-28). Searched via the site's real
+# /table?filter= endpoint. IMPORTANT: the previous placeholder flagged
+# that WTe2's well-known 1T' phase is a semimetal (like graphene) — this
+# seeded entry is NOT that phase. It's the p-6m2 (1H) phase, same space
+# group as this project's other seeded TMDs (MoS2/WS2/WSe2), a real
+# semiconductor with a genuine PBE band gap (0.727 eV). It's very close to
+# (not exactly on) the convex hull (energy above hull = 0.026 eV/atom,
+# still dynamically stable) — the true 1T' ground state (Ehull=0.000,
+# space group p2_1/m11, metallic) also exists in C2DB but isn't seeded
+# here, since this project needs a semiconducting channel material, not a
+# semimetal.
+#
+# lattice_constant_angstrom is DERIVED, not directly quoted: C2DB reports
+# "Unit cell area" (10.915 Angstrom^2) and "2D Bravais type: Hexagonal",
+# not a/b vectors directly. For a regular 2D hexagonal cell,
+# Area = (sqrt(3)/2)*a^2, so a = sqrt(2*Area/sqrt(3)) = 3.5501 Angstrom —
+# exact geometry from a directly-cited number, not an assumed physical
+# constant, but flagged as computed rather than read verbatim.
+#
+# work_function_eV is likewise derived, not directly quoted: C2DB reports
+# "Fermi level wrt. vacuum (PBE)" (i.e. E_F already expressed relative to
+# the vacuum level, = -4.055 eV) alongside a separate absolute "Vacuum
+# level [eV]" (4.833 eV, an internal-reference-frame number, re-fetched and
+# confirmed 2026-08-04, materials-provenance audit). Work function
+# W = E_vac - E_F = -(E_F - E_vac) = -(Fermi level wrt. vacuum) = 4.055 eV
+# -- same correction as mote2_monolayer.yaml (see its module note for the
+# full explanation): the previous wording here implied "Vacuum level
+# (4.833) minus Fermi level wrt. vacuum (-4.055)" = 8.888 eV, which does
+# not match the stored 4.055 eV result -- "Vacuum level" was never actually
+# part of the formula that produced 4.055; corrected the description, the
+# stored number itself was already right.
+#
+# dielectric_constant left null: C2DB reports 2D "polarizability" (units
+# of Angstrom), not a dimensionless dielectric constant — converting one
+# to the other needs a real 2D-to-3D-effective-medium formula this
+# project hasn't implemented, not just unit conversion. Not derived here
+# to avoid quietly inventing a conversion.
+
+material_id: WTe2_monolayer
+formula: WTe2
+lattice_constant_angstrom: 3.5501
+band_gap_eV: 0.727
+effective_mass_electron: 0.450
+effective_mass_hole: 0.288
+dielectric_constant: null
+thermal_conductivity_W_mK: null
+work_function_eV: 4.055
+
+citations:
+  lattice_constant_angstrom:
+    source: C2DB
+    identifier: "WTe2-3c87365bc48c"
+    year: 2018
+    figure_or_table_ref: "Derived from directly-reported 'Unit cell area' (10.915 A^2) assuming a regular 2D hexagonal cell -- see module note above"
+    url: "https://c2db.fysik.dtu.dk/material/1WTe2-1"
+    verified: true
+  band_gap_eV:
+    source: C2DB
+    identifier: "WTe2-3c87365bc48c"
+    year: 2018
+    figure_or_table_ref: "Band gap (PBE) [eV], direct gap"
+    url: "https://c2db.fysik.dtu.dk/material/1WTe2-1"
+    verified: true
+  effective_mass_electron:
+    source: C2DB
+    identifier: "WTe2-3c87365bc48c"
+    year: 2018
+    figure_or_table_ref: "CBM DOS effective mass (PBE)"
+    url: "https://c2db.fysik.dtu.dk/material/1WTe2-1"
+    verified: true
+  effective_mass_hole:
+    source: C2DB
+    identifier: "WTe2-3c87365bc48c"
+    year: 2018
+    figure_or_table_ref: "VBM DOS effective mass (PBE)"
+    url: "https://c2db.fysik.dtu.dk/material/1WTe2-1"
+    verified: true
+  work_function_eV:
+    source: C2DB
+    identifier: "WTe2-3c87365bc48c"
+    year: 2018
+    figure_or_table_ref: "Derived: W = -(Fermi level wrt. vacuum (PBE) [eV]) = -(-4.055) = 4.055 -- see module note above (corrected 2026-08-04; 'Vacuum level' [4.833 eV] is a separate reported field, not part of this formula)"
+    url: "https://c2db.fysik.dtu.dk/material/1WTe2-1"
+    verified: true
+
+extra:
+  crystal_system: hexagonal
+  space_group: "P-6m2 (187)"
+  c2db_extra_properties:
+    thickness_angstrom: 3.624
+    band_gap_hse06_eV: 1.141
+    band_gap_g0w0_eV: 1.377
+    exciton_binding_energy_BSE_eV: 0.420
+    dynamically_stable: true
+    energy_above_hull_eV_per_atom: 0.026
+    origin_label: "Original18"
+    origin_publication_doi: "10.1088/2053-1583/aacfc1"
+  open_items:
+    - "dielectric_constant not sourced -- C2DB reports 2D polarizability (Angstrom units), not a dimensionless constant; a real 2D-to-3D conversion formula is needed, not implemented here"
+    - "thermal_conductivity_W_mK not yet sourced"
+    - "lattice_constant_angstrom and work_function_eV are both derived from other directly-reported C2DB numbers, not read verbatim -- see module note above"
+    - "The true 1T' ground state (Ehull=0.000, metallic) also exists in C2DB and is NOT this entry -- if 1T' WTe2's semimetallic behavior is ever needed, it's a separate material entry, not a correction to this one"

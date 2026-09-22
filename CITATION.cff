@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use Quantum Foundry in your research, please cite it as below."
+title: "Quantum Foundry: a multi-physics simulator for post-silicon and 3D-stacked semiconductor devices"
+type: software
+authors:
+  - family-names: Tripathi
+    given-names: Shobhit
+version: 0.3.0
+date-released: 2026-09-23
+license: Apache-2.0
+repository-code: "https://github.com/chance304/quantum-foundry"
+keywords:
+  - semiconductor device simulation
+  - 2D materials
+  - transition metal dichalcogenides
+  - CFET
+  - 3D integration
+  - TCAD
+  - yield modeling

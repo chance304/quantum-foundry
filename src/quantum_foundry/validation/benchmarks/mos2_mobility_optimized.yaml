@@ -1,0 +1,29 @@
+# Mobility, monolayer MoS2, optimized device (high-k dielectric etc).
+# RESOLVED 2026-07-28: found and directly read (PubMed abstract, PMID
+# 21278752 — a real primary-source quote, not a search-engine summary) the
+# actual source paper — this is the well-known Radisavljevic/Kis result.
+# Abstract states verbatim: "we use a hafnium oxide gate dielectric to
+# demonstrate a room-temperature single-layer MoS2 mobility of at least
+# 200 cm2 V-1 s-1" — matches this benchmark's value exactly. NOT the same
+# source as the subthreshold-swing benchmark (that was an unconfirmed
+# guess from a previous session; see mos2_subthreshold_swing.yaml).
+
+id: mos2_mobility_optimized
+experimental:
+  quantity: mobility
+  value: 200.0
+  unit: "cm^2/(V*s)"
+  uncertainty: null
+  conditions:
+    material: MoS2_monolayer
+    high_k_dielectric: true
+    gate_dielectric: HfO2
+  citation:
+    authors: "Radisavljevic, B.; Radenovic, A.; Brivio, J.; Giacometti, V.; Kis, A."
+    year: 2011
+    title: "Single-layer MoS2 transistors"
+    venue: "Nature Nanotechnology 6, 147-150"
+    doi: "10.1038/nnano.2010.279"
+    figure_or_table_ref: "Abstract, quoted directly via PubMed PMID 21278752 (full text paywalled, abstract read directly, not a search summary)"
+    url: "https://pubmed.ncbi.nlm.nih.gov/21278752/"
+    verified: true

@@ -1,0 +1,57 @@
+# Graphene monolayer — contact/interconnect candidate in the 2D-stack scope.
+#
+# Verified 2026-07-21 by downloading and directly parsing the real
+# JARVIS-DFT dft_2d dataset (figshare file 38521268, the exact URL used by
+# jarvis-tools' own source code — not guessed) rather than a single web
+# page. JVASP-667.
+#
+# effective_mass_electron/hole and thermal_conductivity_W_mK are
+# deliberately null: graphene's linear (Dirac-cone) band dispersion has no
+# well-defined parabolic effective mass — JARVIS's own effective_masses_300K
+# field is "na" for this entry, confirming this isn't a data gap to fill,
+# it's a genuine schema mismatch (see extra.band_structure_type below and
+# docs/DECISIONS.md).
+
+material_id: graphene_monolayer
+formula: C
+lattice_constant_angstrom: 2.4642
+band_gap_eV: 0.0
+effective_mass_electron: null
+effective_mass_hole: null
+dielectric_constant: 2.7389
+thermal_conductivity_W_mK: null
+work_function_eV: null
+
+citations:
+  lattice_constant_angstrom:
+    source: JARVIS-DFT
+    identifier: JVASP-667
+    year: null
+    figure_or_table_ref: "atoms.lattice_mat (relaxed lattice vectors)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-667.html
+    verified: true
+  band_gap_eV:
+    source: JARVIS-DFT
+    identifier: JVASP-667
+    year: null
+    figure_or_table_ref: "optb88vdw_bandgap (0.0 -- gapless Dirac semimetal, not a data gap)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-667.html
+    verified: true
+  dielectric_constant:
+    source: JARVIS-DFT
+    identifier: JVASP-667
+    year: null
+    figure_or_table_ref: "epsx (static dielectric function, real part, in-plane)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-667.html
+    verified: true
+
+extra:
+  band_structure_type: gapless
+  jarvis_extra_properties:
+    hse_bandgap_eV: 0.63
+    exfoliation_energy_meV_per_atom: 70.36
+    formation_energy_eV_per_atom: 0.07035
+    space_group: "P6/mmm"
+  open_items:
+    - "effective_masses_300K is 'na' in the source dataset for this entry -- not a citation gap, a genuine schema mismatch (no parabolic effective mass for a Dirac cone). dft/stub.py's effective-mass model cannot run on this material for that physical reason, not a data-completeness reason."
+    - "thermal_conductivity_W_mK not sourced -- literature values for suspended monolayer graphene vary widely (600-5300 W/mK depending on method/sample) across studies; deliberately not picking one without a specific cited measurement."

@@ -1,0 +1,94 @@
+# WS2 monolayer — the other p-type channel candidate imec named alongside
+# WSe2 in the June-2026 300mm demo. Previously an honest all-null
+# placeholder (no source found via web search); RESOLVED 2026-07-21 by
+# downloading and directly parsing the real JARVIS-DFT dft_2d dataset
+# (figshare file 38521268, the exact URL used by jarvis-tools' own source
+# code) rather than guessing an ID or relying on search-engine indexing,
+# which had failed to surface this entry in an earlier session. JVASP-658.
+#
+# NOTE (2026-07-21): JARVIS-DFT JVASP-658 reports effective_mass_electron
+# = 612.59 m0, anomalously large vs. commonly-cited WS2 literature values
+# (~0.3-0.5 m0). Flagged, not silently corrected, at the time.
+#
+# RESOLVED 2026-07-28: cross-checked against two independent, credible,
+# peer-reviewed sources per the flagged open_item, both read directly (PDF
+# text extracted via pypdf, not a search-engine summary):
+#   - Kormanyos, Burkard, Gmitra, Fabian, Zolyomi, Drummond, Falko,
+#     "k.p theory for two-dimensional transition metal dichalcogenide
+#     semiconductors," 2D Materials 2, 022001 (2015), DOI
+#     10.1088/2053-1583/2/2/022001, arXiv:1410.6666 -- Table 3: WS2
+#     conduction-band (K-point) effective mass m_cb/me = 0.26 (HSE,LDA
+#     band structure) / 0.27 (PBE,PBE).
+#   - Shi, Pan, Zhang, Yakobson, "Quasiparticle band structures and
+#     optical properties of strained monolayer MoS2 and WS2," Phys. Rev. B
+#     87, 155304 (2013), DOI 10.1103/PhysRevB.87.155304, arXiv:1211.5653 --
+#     Table II: WS2 Ke (scGW0, K point) = 0.24 (experimental lattice) /
+#     0.22 (optimized lattice).
+# Both independently land in the same 0.22-0.27 m0 range, confirming the
+# JARVIS-DFT value is a real database anomaly, not a legitimate outlier.
+# effective_mass_electron below is now Kormanyos et al.'s HSE,LDA value
+# (0.26); the original JARVIS-DFT figure is preserved, not deleted, in
+# extra.superseded_values for traceability. See docs/DECISIONS.md
+# 2026-07-28.
+
+material_id: WS2_monolayer
+formula: WS2
+lattice_constant_angstrom: 3.1912
+band_gap_eV: 1.337
+effective_mass_electron: 0.26
+effective_mass_hole: 0.74
+dielectric_constant: 3.7882
+thermal_conductivity_W_mK: null
+work_function_eV: null
+
+citations:
+  lattice_constant_angstrom:
+    source: JARVIS-DFT
+    identifier: JVASP-658
+    year: null
+    figure_or_table_ref: "atoms.lattice_mat (relaxed lattice vectors)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-658.html
+    verified: true
+  band_gap_eV:
+    source: JARVIS-DFT
+    identifier: JVASP-658
+    year: null
+    figure_or_table_ref: "optb88vdw_bandgap"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-658.html
+    verified: true
+  effective_mass_electron:
+    source: "Kormanyos et al."
+    identifier: "10.1088/2053-1583/2/2/022001"
+    year: 2015
+    figure_or_table_ref: "Table 3, WS2 m(1)_cb/me, HSE,LDA column (PBE,PBE column gives 0.27, same order)"
+    url: https://arxiv.org/abs/1410.6666
+    verified: true
+  effective_mass_hole:
+    source: JARVIS-DFT
+    identifier: JVASP-658
+    year: null
+    figure_or_table_ref: "effective_masses_300K.p, in-plane (x,y) component"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-658.html
+    verified: true
+  dielectric_constant:
+    source: JARVIS-DFT
+    identifier: JVASP-658
+    year: null
+    figure_or_table_ref: "epsx (static dielectric function, real part, in-plane)"
+    url: https://www.ctcms.nist.gov/~knc6/jsmol/JVASP-658.html
+    verified: true
+
+extra:
+  jarvis_extra_properties:
+    hse_bandgap_eV: 2.29
+    out_of_plane_effective_mass_electron: 9274792.69
+    out_of_plane_effective_mass_hole: 1009.34
+    space_group: "P-6m2"
+  superseded_values:
+    - field: effective_mass_electron
+      value: 612.59
+      previous_source: "JARVIS-DFT JVASP-658, effective_masses_300K.n, in-plane (x,y) component"
+      reason: "Confirmed anomalous 2026-07-28 by two independent literature cross-checks (Kormanyos et al. 2015, Shi et al. 2013), both landing in 0.22-0.27 m0 -- kept here for traceability, not deleted."
+  open_items:
+    - "thermal_conductivity_W_mK and work_function_eV not yet sourced"
+    - "effective_mass_hole (0.74 m0, JARVIS-DFT) runs ~2x higher than Kormanyos et al./Shi et al.'s WS2 hole-mass values (0.31-0.36 m0 across the two sources) -- not flagged as an anomaly on the same order as the electron-mass case (no magnitude error), not corrected this pass since it wasn't a flagged gap; worth a dedicated cross-check if WS2's p-role Ion result ever needs high-confidence precision."
