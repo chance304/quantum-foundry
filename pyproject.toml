@@ -26,7 +26,7 @@ dev = [
     "pytest>=8.0,<10",
     "pytest-cov>=5.0,<8",
     "ruff>=0.6,<1",
-    "mypy>=1.11,<2",
+    "mypy>=1.11,<3",
     "types-PyYAML>=6.0,<7",
 ]
 # jarvis-tools installed and verified 2026-07-22 (docs/DECISIONS.md) to
